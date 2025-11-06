@@ -15,19 +15,27 @@ $$
 H0: \mu_M = \mu_F \\HA: \mu_M > \mu_F
 $$
 
+
 ## Q2 What value do *men* find most important when considering a second date?
 
+note: Maybe we visualize this using side by side boxplots?
 average rating by decision - that way we can see which variable seems to differenciate between a yes and a no
-
 compare average rating per trait per yes/no response
-which one has the greatest differece between yes/no?
+Which category's ratings has the greatest differece between yes/no?
+
+ALTERNATIVELY: 
+Calculate the chi-squared test of independence and p-value for all categories and compare  the p-values.
+
 
 ## Q3 What value do *women* find most important when considering a second date?
 
 average rating by decision - that way we can see which variable seems to differenciate between a yes and a no
-
 compare average rating per trait per yes/no response
-which one has the greatest differece between yes/no?
+Which category's ratings has the greatest differece between yes/no?
+
+ALTERNATIVELY: 
+Calculate the chi-squared test of independence and p-value for all categories and compare  the p-values.
+
 
 ## Q4 Do larger age gaps play a factor when considering another date?
 
