@@ -23,18 +23,12 @@ average rating by decision - that way we can see which variable seems to differe
 compare average rating per trait per yes/no response
 Which category's ratings has the greatest differece between yes/no?
 
-ALTERNATIVELY: 
-Calculate the chi-squared test of independence and p-value for all categories and compare  the p-values.
-
 
 ## Q3 What value do *women* find most important when considering a second date?
 
 average rating by decision - that way we can see which variable seems to differenciate between a yes and a no
 compare average rating per trait per yes/no response
 Which category's ratings has the greatest differece between yes/no?
-
-ALTERNATIVELY: 
-Calculate the chi-squared test of independence and p-value for all categories and compare  the p-values.
 
 
 ## Q4 Do larger age gaps play a factor when considering another date?
