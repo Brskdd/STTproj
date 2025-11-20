@@ -14,8 +14,10 @@ speedDatingCleanedQ2 <- na.omit(SpeedDating)
 ## This is of interest as there are lots of categories so which category is the most important to a woman wanting another date.
 speedDatingCleanedQ3 <- na.omit(SpeedDating)
 
-## Q3. Do larger age gaps affect if either a man or a woman want another date?
-## There are a lot of different age gaps in the data so we are curious if a certain age gap would correlate with either gender saying no to another date.
+## Q3. Do larger age gaps affect if either a man or a woman view each other as attractive?
+## There are a lot of different age gaps in the data so we are curious if a certain age gap would correlate with either gender viewing the other as less attractive.
 speedDatingCleanedQ4 <- SpeedDating %>%
   filter(!is.na(AgeM)) %>%
   filter(!is.na(AgeF))
+
+##Q4. 
