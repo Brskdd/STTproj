@@ -2,6 +2,11 @@
 title: statistician
 author: heeryun
 ---
+```{load in data}
+getwd()
+setwd("~/Desktop/GitHub/STTproj/workData/")
+load("SpeedDating copy.rda")
+```
 
 ## Q1  - Are men more likely than women to say yes to a second date?
 
@@ -15,21 +20,19 @@ $$
 H0: \mu_M = \mu_F \\HA: \mu_M > \mu_F
 $$
 
-
 ## Q2 What value do *men* find most important when considering a second date?
 
-note: Maybe we visualize this using side by side boxplots?
 average rating by decision - that way we can see which variable seems to differenciate between a yes and a no
-compare average rating per trait per yes/no response
-Which category's ratings has the greatest differece between yes/no?
 
+compare average rating per trait per yes/no response
+which one has the greatest differece between yes/no?
 
 ## Q3 What value do *women* find most important when considering a second date?
 
 average rating by decision - that way we can see which variable seems to differenciate between a yes and a no
-compare average rating per trait per yes/no response
-Which category's ratings has the greatest differece between yes/no?
 
+compare average rating per trait per yes/no response
+which one has the greatest differece between yes/no?
 
 ## Q4 Do larger age gaps play a factor when considering another date?
 
