@@ -1,5 +1,5 @@
 library(dplyr)
-
+View(SpeedDating)
 ## Q1. Are men more likely to say yes to another date than women? 
 ## This is of interest because we are interested to see which gender is more likely to go on another date. 
 speedDatingCleanedQ1 <- SpeedDating %>%
@@ -19,3 +19,5 @@ speedDatingCleanedQ3 <- na.omit(SpeedDating)
 speedDatingCleanedQ4 <- SpeedDating %>%
   filter(!is.na(AgeM)) %>%
   filter(!is.na(AgeF))
+
+##Q4. Does ____  score affect the other scores 
