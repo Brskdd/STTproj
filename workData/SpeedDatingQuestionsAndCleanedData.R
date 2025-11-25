@@ -1,4 +1,6 @@
 library(dplyr)
+load("SpeedDating.rda")
+
 
 ## Q1. Are men more likely to say yes to another date than women? 
 ## This is of interest because we are interested to see which gender is more likely to go on another date. 
@@ -7,14 +9,14 @@ speedDatingCleanedQ1 <- SpeedDating %>%
   filter(!is.na(DecisionF)) %>%
   select(DecisionM, DecisionF)
 
-## Q2. Which score seems to be the most important for men to want a second date?
-## This is of interest as there are lots of categories so which category is the most important to a man wanting another date.
+## Q2. Which score seems to be the most important for a man's Like score?
+## This is of interest as there are lots of categories so which category is the most important to a man liking the woman.
 speedDatingCleanedQ2 <- na.omit(SpeedDating)
 speedDatingCleanedQ2M <- speedDatingCleanedQ2 %>%
   select(DecisionM, LikeM, PartnerYesM, AgeM, RaceM, AttractiveM, SincereM, IntelligentM, FunM, AmbitiousM, SharedInterestsM)
 
-## Q2. Which score seems to be the most important for women to want a second date?
-## This is of interest as there are lots of categories so which category is the most important to a woman wanting another date.
+## Q2. Which score seems to be the most important for a woman's Like score?
+## This is of interest as there are lots of categories so which category is the most important to a woman liking the man.
 speedDatingCleanedQ2 <- na.omit(SpeedDating)
 speedDatingCleanedQ2F <- speedDatingCleanedQ2 %>%
   select(DecisionF, LikeF, PartnerYesF, AgeF, RaceF, AttractiveF, SincereF, IntelligentF, FunF, AmbitiousF, SharedInterestsF)
