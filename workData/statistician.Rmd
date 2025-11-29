@@ -1,0 +1,136 @@
+---
+title: "Statistician"
+author: "Heeryun Kim"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load}
+library(dplyr)
+
+load("SpeedDating.rda")
+View(SpeedDating)
+```
+
+## Q1. Are men more likely to say yes to another date than women? 
+## This is of interest because we are interested to see which gender is more likely to go on another date.
+```{r Q1 clean}
+speedDatingCleanedQ1 <- SpeedDating %>%
+  filter(!is.na(DecisionM)) %>%
+  filter(!is.na(DecisionF)) %>%
+  select(DecisionM, DecisionF)
+```
+
+## Q2. Which score seems to be the most important for a man's Like score?
+## This is of interest as there are lots of categories so which category is the most important to a man liking the woman.
+```{r Q2 clean.a}
+speedDatingCleanedQ2 <- na.omit(SpeedDating)
+speedDatingCleanedQ2M <- speedDatingCleanedQ2 %>%
+  select(DecisionM, LikeM, PartnerYesM, AgeM, RaceM, AttractiveM, SincereM, IntelligentM, FunM, AmbitiousM, SharedInterestsM)
+```
+
+## Q2. Which score seems to be the most important for a woman's Like score?
+## This is of interest as there are lots of categories so which category is the most important to a woman liking the man.
+```{r Q2 clean.a}
+speedDatingCleanedQ2 <- na.omit(SpeedDating)
+speedDatingCleanedQ2F <- speedDatingCleanedQ2 %>%
+  select(DecisionF, LikeF, PartnerYesF, AgeF, RaceF, AttractiveF, SincereF, IntelligentF, FunF, AmbitiousF, SharedInterestsF)
+```
+
+## Q3. Do larger age gaps affect if either a man or a woman want another date?
+## There are a lot of different age gaps in the data so we are curious if a certain age gap would correlate with either gender saying no to another date.
+speedDatingCleanedQ4 <- SpeedDating %>%
+
+#=======
+## Q3. Do larger age gaps affect if either a man or a woman view each other as attractive?
+## There are a lot of different age gaps in the data so we are curious if a certain age gap would correlate with either gender viewing the other as less attractive.
+```{r Q3 clean}
+speedDatingCleanedQ3 <- SpeedDating %>%
+  filter(!is.na(AgeM)) %>%
+  filter(!is.na(AgeF)) %>%
+  select(AgeM, AgeF, AttractiveM, AttractiveF)
+```  
+```{r}  
+plot(speedDatingCleanedQ3$AgeM, speedDatingCleanedQ3$AttractiveM )
+cor(speedDatingCleanedQ3$AgeM, speedDatingCleanedQ3$AttractiveM)
+
+plot(speedDatingCleanedQ3$AgeF, speedDatingCleanedQ3$AttractiveF )
+cor(speedDatingCleanedQ3$AgeF, speedDatingCleanedQ3$AttractiveF)
+```
+
+#=======
+##Q4. Do people find people they view as attractive to be more fun.
+## We are curious about this as we want to know if one person finds another person attractive if that will influence their perspective on how fun the other person is to be around.
+
+```{r Q4 clean}
+speedDatingCleanedQ4 <- SpeedDating %>%
+  filter(!is.na(AttractiveM)) %>%
+  filter(!is.na(AttractiveF)) %>%
+  filter(!is.na(FunM)) %>%
+  filter(!is.na(FunF)) %>%
+  select(AttractiveM, AttractiveF, FunM, FunF)
+
+```
+Check for linear relationship with scatter plot and corrolation
+```{r}
+plot(speedDatingCleanedQ4$AttractiveM, speedDatingCleanedQ4$FunM)
+cor(speedDatingCleanedQ4$AttractiveM, speedDatingCleanedQ4$FunM)
+
+plot(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF)
+cor(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF)
+
+```
+Both scatterplots have a clear weak, positive, linear relationship between variables.
+```{r}
+shuffleCorrelationM <- function(df){
+  shuffled_df<- df %>%
+    mutate(shuffled_strenth = sample(AttractiveM, length(AttractiveM), replace=FALSE))
+  return(cor(shuffled_df$shuffled_strenth, shuffled_df$FunM))
+}
+
+nullDistributionM <- replicate(1000, shuffleCorrelationM(speedDatingCleanedQ4))
+
+statisticM <-cor(speedDatingCleanedQ4$AttractiveM, speedDatingCleanedQ4$FunM)
+
+p_valueM <- mean(statisticM >= nullDistributionM )
+print(p_valueM)
+print(statisticM)
+
+
+hist(nullDistributionM, xlim = c(-0.2, 0.8))
+abline(v = statisticM, col = 'red')
+```
+
+```{r}
+shuffleCorrelationF <- function(df){
+  shuffled_df<- df %>%
+    mutate(shuffled_strenth = sample(AttractiveF, length(AttractiveF), replace=FALSE))
+  return(cor(shuffled_df$shuffled_strenth, shuffled_df$FunF))
+}
+
+nullDistributionF <- replicate(1000, shuffleCorrelationF(speedDatingCleanedQ4))
+
+statisticF <-cor(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF)
+
+p_valueF <- mean(statisticF >= nullDistributionF )
+print(p_valueF)
+print(statisticF)
+
+hist(nullDistributionF, xlim = c(-0.2, 0.6))
+abline(v = statisticF, col = 'red')
+```
+
+There is a strong positive relationship between ratings for Attractiveness and 
+Fun for both genders.
+
+The p-value for both corrolations is 1. The statistics are significant, there 
+is significant evidence that Attractiveness and Fund are corrolated for both
+men and women.
+
+  - we can do a linear regression to predict Fun with Attractiveness
+  - check assumptions.
+  
