@@ -124,9 +124,6 @@ hist(nullDistributionF, xlim = c(-0.2, 0.6))
 abline(v = statisticF, col = 'red')
 ```
 
-There is a strong positive relationship between ratings for Attractiveness and 
-Fun for both genders.
-
 The p-value for both corrolations is 1. The statistics are significant, there 
 is significant evidence that Attractiveness and Fund are corrolated for both
 men and women.
