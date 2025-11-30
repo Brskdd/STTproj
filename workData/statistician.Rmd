@@ -24,25 +24,48 @@ speedDatingCleanedQ1 <- SpeedDating %>%
   filter(!is.na(DecisionF)) %>%
   select(DecisionM, DecisionF)
 ```
-Logistic regression.
+Hypothesis test.
+```{r}
+statistic = mean(speedDatingCleanedQ1$DecisionM)- mean(speedDatingCleanedQ1$DecisionF)
+statistic
+```
+The statistics suggest that males are more likely to say yes to a second date than females.
+$$
+H_0: \text{diff}_{(M - F)} = 0
+\\
+H_A:\text{diff}_{(M - F)} > 0
+$$
 
 ## Q2. Which score seems to be the most important for a man's Like score?
 ## This is of interest as there are lots of categories so which category is the most important to a man liking the woman.
 ```{r Q2 clean.a}
 speedDatingCleanedQ2 <- na.omit(SpeedDating)
 speedDatingCleanedQ2M <- speedDatingCleanedQ2 %>%
-  select(DecisionM, LikeM, PartnerYesM, AgeM, RaceM, AttractiveM, SincereM, IntelligentM, FunM, AmbitiousM, SharedInterestsM)
+  select(DecisionM, LikeM, PartnerYesM, AttractiveM, SincereM, IntelligentM, FunM, AmbitiousM, SharedInterestsM)
+   #omit AgeM, RaceM b/c they don't seem to have a relationship with like
 ```
 Linear regression.
+```{r}
+pairs(speedDatingCleanedQ2[, c("LikeM", "PartnerYesM", "AgeM", "RaceM", "AttractiveM", "SincereM", "IntelligentM", "FunM", "AmbitiousM", "SharedInterestsM")])
+
+```
+There seems to be multicolinearity.
+Age and race do not seem to have a relationship with like rating.
 
 ## Q2. Which score seems to be the most important for a woman's Like score?
 ## This is of interest as there are lots of categories so which category is the most important to a woman liking the man.
 ```{r Q2 clean.a}
 speedDatingCleanedQ2 <- na.omit(SpeedDating)
 speedDatingCleanedQ2F <- speedDatingCleanedQ2 %>%
-  select(DecisionF, LikeF, PartnerYesF, AgeF, RaceF, AttractiveF, SincereF, IntelligentF, FunF, AmbitiousF, SharedInterestsF)
-```
+  select(DecisionF, LikeF, PartnerYesF, AttractiveF, SincereF, IntelligentF, FunF, AmbitiousF, SharedInterestsF)
+  #omit AgeF, RaceF b/c they don't seem to have a relationship with like
+``` 
 Linear regression.
+```{r}
+pairs(speedDatingCleanedQ2[, c("LikeF", "PartnerYesF", "AgeF", "RaceF", "AttractiveF", "SincereF", "IntelligentF", "FunF", "AmbitiousF", "SharedInterestsF")])
+```
+There seems to be multicolinearity.
+Age and race do not seem to have a relationship with like rating.
 
 ## Q3. Do larger age gaps affect if either a man or a woman want another date?
 ## There are a lot of different age gaps in the data so we are curious if a certain age gap would correlate with either gender saying no to another date.
