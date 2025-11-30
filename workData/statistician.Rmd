@@ -29,12 +29,31 @@ Hypothesis test.
 statistic = mean(speedDatingCleanedQ1$DecisionM)- mean(speedDatingCleanedQ1$DecisionF)
 statistic
 ```
-The statistics suggest that males are more likely to say yes to a second date than females.
+The statistic suggest that males are more likely to say yes to a second date than females.
 $$
 H_0: \text{diff}_{(M - F)} = 0
 \\
 H_A:\text{diff}_{(M - F)} > 0
 $$
+```{r}
+nullPopulation <- function(df){
+  diff <- mean(sample(c(0,1), length(df$DecisionM), replace = TRUE)) -
+          mean(sample(c(0,1), length(df$DecisionF), replace = TRUE))
+  return(diff)
+}
+nullDistribution <- replicate(1000,nullPopulation(speedDatingCleanedQ1))
+
+statistic = mean(speedDatingCleanedQ1$DecisionM)- mean(speedDatingCleanedQ1$DecisionF)
+p_value <- mean(statistic <= nullDistribution )
+
+print(p_value)
+print(statistic)
+
+hist(nullDistribution)
+abline(v = statistic, col = 'red')
+```
+With a p-value of 0.052 we fail to reject the null hypothesis with a statistic of 0.068 difference between males and females saying yes to a second date. We do not have significant evidence that supports the alternative hypothesis that males say yes to second dates more than females.
+
 
 ## Q2. Which score seems to be the most important for a man's Like score?
 ## This is of interest as there are lots of categories so which category is the most important to a man liking the woman.
