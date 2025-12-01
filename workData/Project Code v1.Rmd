@@ -15,19 +15,68 @@ load("SpeedDating.rda")
 ```
 
 ```{r Q1. Are men more likely to say yes to another date than women?}
-#WIP, doing surprise question first.
+#We really need to replace this question.
 speedDatingCleanedQ1 <- SpeedDating %>%
   filter(!is.na(DecisionM)) %>%
   filter(!is.na(DecisionF)) %>%
   select(DecisionM, DecisionF)
 ```
 
+```{r our group's proposed testing method of comparing percents.}
+percentM <- sum(speedDatingCleanedQ1$DecisionM)/length(speedDatingCleanedQ1$DecisionM)
+
+
+```
+
+
 ```{r Q2. Which score seems to be the most important for a man's Like score?}
-#WIP, doing surprise question first.
 speedDatingCleanedQ2 <- na.omit(SpeedDating)
 speedDatingCleanedQ2M <- speedDatingCleanedQ2 %>%
-  select(DecisionM, LikeM, PartnerYesM, AgeM, RaceM, AttractiveM, SincereM, IntelligentM, FunM, AmbitiousM, SharedInterestsM)
+  select(LikeM, AgeM, AttractiveM, SincereM, IntelligentM, FunM, AmbitiousM, SharedInterestsM)
 ```
+
+```{r test which is the best individual predictor by comparing r-square of each predictor.}
+predictors = colnames(speedDatingCleanedQ2M)[-1] #This is because LikeM is the first column in the df.
+rsq_dict <- setNames(numeric(length(predictors)), predictors)
+
+Age_model = lm(speedDatingCleanedQ2M$LikeM ~ speedDatingCleanedQ2M$AgeM)
+Age_model_summary = summary(Age_model)
+Age_rsq = Age_model_summary$r.squared
+rsq_dict$AgeM <- Age_rsq
+
+Attractive_model = lm(speedDatingCleanedQ2M$LikeM ~ speedDatingCleanedQ2M$AttractiveM)
+Attractive_model_summary = summary(Attractive_model)
+Attractive_rsq = Attractive_model_summary$r.squared
+rsq_dict$AttractiveM <- Attractive_rsq
+
+Sincere_model = lm(speedDatingCleanedQ2M$LikeM ~ speedDatingCleanedQ2M$SincereM)
+Sincere_model_summary = summary(Sincere_model)
+Sincere_rsq = Sincere_model_summary$r.squared
+rsq_dict$SincereM <- Sincere_rsq
+
+Intelligent_model = lm(speedDatingCleanedQ2M$LikeM ~ speedDatingCleanedQ2M$IntelligentM)
+Intelligent_model_summary = summary(Intelligent_model)
+Intelligent_rsq = Intelligent_model_summary$r.squared
+rsq_dict$IntelligentM <- Intelligent_rsq
+
+Fun_model = lm(speedDatingCleanedQ2M$LikeM ~ speedDatingCleanedQ2M$FunM)
+Fun_model_summary = summary(Fun_model)
+Fun_rsq = Fun_model_summary$r.squared
+rsq_dict$FunM <- Fun_rsq
+
+Ambitious_model = lm(speedDatingCleanedQ2M$LikeM ~ speedDatingCleanedQ2M$AmbitiousM)
+Ambitious_model_summary = summary(Ambitious_model)
+Ambitious_rsq = Ambitious_model_summary$r.squared
+rsq_dict$AmbitiousM <- Ambitious_rsq
+
+SharedInterests_model = lm(speedDatingCleanedQ2M$LikeM ~ speedDatingCleanedQ2M$SharedInterestsM)
+SharedInterests_model_summary = summary(SharedInterests_model)
+SharedInterests_rsq = SharedInterests_model_summary$r.squared
+rsq_dict$SharedInterestsM <- SharedInterests_rsq
+
+print(rsq_dict)
+```
+By comparing the r squared values for each variable's ability to predict how much the man likes the woman, we can conclude that the single best predictor is how attractive the man finds the woman, with an r squared value of .5171.
 
 ```{r Q3. Do larger age gaps affect if either a man or a woman view each other as attractive?}
 speedDatingCleanedQ3 <- SpeedDating %>%
