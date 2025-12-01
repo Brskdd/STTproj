@@ -1,0 +1,138 @@
+---
+title: "Project Code v1"
+author: "Ethan Hearne"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r imports, message=FALSE}
+library(knitr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(testthat)
+load("SpeedDating.rda")
+```
+
+```{r Q1. Are men more likely to say yes to another date than women?}
+#WIP, doing surprise question first.
+speedDatingCleanedQ1 <- SpeedDating %>%
+  filter(!is.na(DecisionM)) %>%
+  filter(!is.na(DecisionF)) %>%
+  select(DecisionM, DecisionF)
+```
+
+```{r Q2. Which score seems to be the most important for a man's Like score?}
+#WIP, doing surprise question first.
+speedDatingCleanedQ2 <- na.omit(SpeedDating)
+speedDatingCleanedQ2M <- speedDatingCleanedQ2 %>%
+  select(DecisionM, LikeM, PartnerYesM, AgeM, RaceM, AttractiveM, SincereM, IntelligentM, FunM, AmbitiousM, SharedInterestsM)
+```
+
+```{r Q3. Do larger age gaps affect if either a man or a woman view each other as attractive?}
+speedDatingCleanedQ3 <- SpeedDating %>%
+  filter(!is.na(AgeM)) %>%
+  filter(!is.na(AgeF)) %>%
+  select(AgeM, AgeF, AttractiveM, AttractiveF)
+```
+
+```{r Q4. Do people find people they view as attractive to be more fun.}
+speedDatingCleanedQ4 <- SpeedDating %>%
+  filter(!is.na(AttractiveM)) %>%
+  filter(!is.na(AttractiveF)) %>%
+  filter(!is.na(FunM)) %>%
+  filter(!is.na(FunF)) %>%
+  select(AttractiveM, AttractiveF, FunM, FunF)
+```
+
+```{r plotting men's view of women's attractiveness vs fun and their correlation.}
+plot(speedDatingCleanedQ4$AttractiveM, speedDatingCleanedQ4$FunM, xlab = "How Attractive Do Men View Women As? (1-10)", ylab = "How Fun Do Men View Women As? (1-10)", main = "Men's View of Women's Attractiveness vs How Fun They Are with best fit (red, =.6068)")
+abline(lm(speedDatingCleanedQ4$FunM ~ speedDatingCleanedQ4$AttractiveM), col = "red")
+
+CorM <- cor(speedDatingCleanedQ4$AttractiveM, speedDatingCleanedQ4$FunM, method = "pearson")
+print(CorM)
+```
+There appears to be a moderate positive correlation between how men view women as attractive vs how fun they view women.
+To test this, we run a shuffle test to determine the significance of this correlation.
+
+
+```{r Male shuffle test}
+shuffleM <- function(male){
+  shuffledM <- male %>%
+    mutate(shuffled_AttractiveM = sample(AttractiveM, length(AttractiveM), replace=FALSE))
+  
+  return(cor(shuffledM$shuffled_AttractiveM, shuffledM$FunM, method = "pearson"))
+}
+
+
+nulldistM <- replicate(1000, shuffleM(speedDatingCleanedQ4))
+
+boxplot(nulldistM, main = "Null Dist of How Men Percieve Women as Attractive vs Fun", horizontal = TRUE, ylim = c(-.25, .7), xlab = "Test Correlation Line (in red, = .6068)")
+abline(v = CorM, col = "red")
+
+p_valM <- mean(CorM <= nulldistM)
+print(p_valM)
+```
+We reject the null hypothesis that there is no correlation between how men perceive women as attractive vs how they percieve them as fun at a = .05, because the p value is 0.
+
+```{r testing the shuffle function. It is the same function for both Women and Men, just with different names.}
+shuffleM <- function(male){
+  shuffledM <- male %>%
+    mutate(shuffled_AttractiveM = sample(AttractiveM, length(AttractiveM), replace=FALSE))
+  
+  return(cor(shuffledM$shuffled_AttractiveM, shuffledM$FunM, method = "pearson"))
+}
+
+#Test 1: inputting a dataframe to shuffleM that contains no "AttractiveM" column. This should raise an error.
+test1 <- speedDatingCleanedQ4 %>%
+  select(FunM, FunF, AttractiveF)
+shuffleM(test1$AttractiveM)
+
+#Test 2: inputting a dataframe into shuffleM, where "AttractiveM" containes non numeric values. This should raise an error.
+test2 <- speedDatingCleanedQ4 %>%
+  mutate(AttractiveM = NA)
+shuffleM(test2$AttractiveM)
+
+#Test 3: replace "AttractiveM" with "FunM". this should raise an error
+test3_output <- shuffleM(speedDatingCleanedQ4$FunM)
+```
+
+
+```{r plotting women's view of men's attractiveness vs fun and their correlation.}
+plot(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF, xlab = "How Attractive Do Women View Men As? (1-10)", ylab = "How Fun Do Women View Men As? (1-10)", main = "Women's View of Men's Attractiveness vs How Fun They Are with best fit (red, = .5521)")
+abline(lm(speedDatingCleanedQ4$FunF ~ speedDatingCleanedQ4$AttractiveF), col = "red")
+
+CorF <- cor(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF, method = "pearson")
+print(CorF)
+```
+There appears to be a moderate positive correlation between how Women view Men as attractive vs how fun they view men.
+To test this, we run a shuffle test to determine the significance of this correlation.
+
+```{r Women shuffle test}
+shuffleF <- function(female){
+  shuffledF <- female %>%
+    mutate(shuffled_AttractiveF = sample(AttractiveF, length(AttractiveF), replace=FALSE))
+  
+  return(cor(shuffledF$shuffled_AttractiveF, shuffledF$FunF, method = "pearson"))
+}
+
+
+nulldistF <- replicate(1000, shuffleF(speedDatingCleanedQ4))
+
+boxplot(nulldistF, main = "Null Dist of How Women Percieve Men as Attractive vs Fun", horizontal = TRUE, ylim = c(-.25, .65), xlab = "Test Correlation Line (in red, = .5521)")
+abline(v = CorF, col = "red")
+
+p_valF <- mean(CorF <= nulldistF)
+print(p_valF)
+```
+
+We reject the null hypothesis that there is no correlation between how women percieve men as attractive vs how they percieve them as fun at a = .05, because the p value is 0.
+
+```{r linear regression for both m and f with summaries}
+modelM <- lm(speedDatingCleanedQ4$FunM ~ speedDatingCleanedQ4$AttractiveM)
+summary(modelM)
+
+modelF <- lm(speedDatingCleanedQ4$FunF ~ speedDatingCleanedQ4$AttractiveF)
+summary(modelF)
+```
+
