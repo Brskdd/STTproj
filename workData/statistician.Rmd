@@ -52,9 +52,7 @@ print(statistic)
 hist(nullDistribution)
 abline(v = statistic, col = 'red')
 ```
-With a p-value of 0.052 we fail to reject the null hypothesis with a statistic of 0.068 difference between males 
-and females saying yes to a second date. We do not have significant evidence that supports the alternative
-hypothesis that males say yes to second dates more than females.
+With a p-value of 0.052 we fail to reject the null hypothesis with a statistic of 0.068 difference between males and females saying yes to a second date. We do not have significant evidence that supports the alternative hypothesis that males say yes to second dates more than females.
 
 
 ## Q2. Which score seems to be the most important for a man's Like score?
@@ -68,14 +66,13 @@ speedDatingCleanedQ2M <- speedDatingCleanedQ2 %>%
 Linear regression.
 ```{r}
 pairs(speedDatingCleanedQ2[, c("LikeM", "PartnerYesM", "AgeM", "RaceM", "AttractiveM", "SincereM", "IntelligentM", "FunM", "AmbitiousM", "SharedInterestsM")])
-
+cor(speedDatingCleanedQ2[sapply(speedDatingCleanedQ2, is.numeric)])
 ```
-There seems to be multicolinearity.
+The none of the corrolations are stonger than 0.6 so we can go ahead with linear regression.
 Age and race do not seem to have a relationship with like rating.
 
 ## Q2. Which score seems to be the most important for a woman's Like score?
-## This is of interest as there are lots of categories so which category is the most 
-important to a woman liking the man.
+## This is of interest as there are lots of categories so which category is the most important to a woman liking the man.
 ```{r Q2 clean.a}
 speedDatingCleanedQ2 <- na.omit(SpeedDating)
 speedDatingCleanedQ2F <- speedDatingCleanedQ2 %>%
@@ -86,18 +83,16 @@ Linear regression.
 ```{r}
 pairs(speedDatingCleanedQ2[, c("LikeF", "PartnerYesF", "AgeF", "RaceF", "AttractiveF", "SincereF", "IntelligentF", "FunF", "AmbitiousF", "SharedInterestsF")])
 ```
-There seems to be multicolinearity.
+There seems to be The none of the corrolations are stonger than 0.6 so we can go ahead with linear regression.
 Age and race do not seem to have a relationship with like rating.
 
 ## Q3. Do larger age gaps affect if either a man or a woman want another date?
-## There are a lot of different age gaps in the data so we are curious if a certain age gap would 
-correlate with either gender saying no to another date.
+## There are a lot of different age gaps in the data so we are curious if a certain age gap would correlate with either gender saying no to another date.
 speedDatingCleanedQ4 <- SpeedDating %>%
 
 #=======
 ## Q3. Do larger age gaps affect if either a man or a woman view each other as attractive?
-## There are a lot of different age gaps in the data so we are curious if a certain age gap would 
-correlate with either gender viewing the other as less attractive.
+## There are a lot of different age gaps in the data so we are curious if a certain age gap would correlate with either gender viewing the other as less attractive.
 ```{r Q3 clean}
 speedDatingCleanedQ3 <- SpeedDating %>%
   filter(!is.na(AgeM)) %>%
