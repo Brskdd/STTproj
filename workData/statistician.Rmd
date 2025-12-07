@@ -49,7 +49,7 @@ p_value <- mean(statistic <= nullDistribution )
 print(p_value)
 print(statistic)
 
-hist(nullDistribution)
+hist(nullDistribution,  xlab = "Difference in decision (M-F)", main = "Simulated Difference of Saying Yes between Men and Women")
 abline(v = statistic, col = 'red')
 ```
 With a p-value of 0.052 we fail to reject the null hypothesis with a statistic of 0.068 difference between males and females saying yes to a second date. We do not have significant evidence that supports the alternative hypothesis that males say yes to second dates more than females.
@@ -109,7 +109,7 @@ H_A: \rho < 0
 $$
 
 ```{r}  
-plot(speedDatingCleanedQ3$ageDiff, speedDatingCleanedQ3$AttractiveM )
+plot(speedDatingCleanedQ3$ageDiff, speedDatingCleanedQ3$AttractiveM, xlab = " Age Gap (M-F)", ylab = "Attractiveness Rating", main = "Relationship between percieved Attractiveness and Fun (Male)")
 cor(speedDatingCleanedQ3$ageDiff, speedDatingCleanedQ3$AttractiveM)
 ```
 ```{r}
@@ -128,7 +128,7 @@ print(p_valueM)
 print(statisticM)
 
 
-hist(nullDistributionM, xlim = c(-0.2, 0.8))
+hist(nullDistributionM, xlab = "Correlation Coefficient", main = "Simulated Correlation between Age Gap and Attractiveness (Male)")
 abline(v = statisticM, col = 'red')
 ```
 The p-value for age difference and male attractiveness rating is 0.143 for a corrolation static of 0.643. 
@@ -136,7 +136,7 @@ At an alpha level of 0.01, we fail to reject the null hypothesis. There is not
 significant evidence that supports that Age gaps and percieved attractiveness are corrolated for males.
 
 ```{r}
-plot(speedDatingCleanedQ3$ageDiff, speedDatingCleanedQ3$AttractiveF )
+plot(speedDatingCleanedQ3$ageDiff, speedDatingCleanedQ3$AttractiveF, xlab = " Age Gap (M-F)", ylab = "Attractiveness Rating", main = "Relationship between percieved Attractiveness and Fun (Female)")
 cor(speedDatingCleanedQ3$ageDiff, speedDatingCleanedQ3$AttractiveF)
 
 
@@ -164,7 +164,7 @@ print(p_valueF)
 print(statisticF)
 
 
-hist(nullDistributionF, xlim = c(-0.2, 0.8))
+hist(nullDistributionF, xlab = "Correlation Coefficient", main = "Simulated Correlation between Age Gap and Attractiveness (Female)")
 abline(v = statisticF, col = 'red')
 ```
 The p-value for age difference and female attractiveness rating is 0.145 for a corrolation static of -0.669. 
@@ -192,7 +192,7 @@ H_A: \rho < 0
 $$
 Check for linear relationship with scatter plot and corrolation
 ```{r}
-plot(speedDatingCleanedQ4$AttractiveM, speedDatingCleanedQ4$FunM)
+plot(speedDatingCleanedQ4$AttractiveM, speedDatingCleanedQ4$FunM, xlab = "Attractiveness Rating", ylab = "Fun Rating", main = "Relationship between percieved Attractiveness and Fun (Male)")
 cor(speedDatingCleanedQ4$AttractiveM, speedDatingCleanedQ4$FunM)
 ```
 
@@ -213,14 +213,16 @@ print(p_valueM)
 print(statisticM)
 
 
-hist(nullDistributionM, xlim = c(-0.2, 0.8))
+hist(nullDistributionM, xlim = c(-0.2, 0.8), xlab = "Correlation Coefficient", main = "Simulated Correlation between Attractiveness and Fun (Male)")
 abline(v = statisticM, col = 'red')
 ```
 
 ```{r}
 
-plot(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF)
+plot(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF, xlab = "Attractiveness Rating", ylab = "Fun Rating", main = "Relationship between percieved Attractiveness and Fun (Female)")
 cor(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF)
+
+
 ```
 
 ```{r}
@@ -238,7 +240,7 @@ p_valueF <- mean(statisticF <= nullDistributionF )
 print(p_valueF)
 print(statisticF)
 
-hist(nullDistributionF, xlim = c(-0.2, 0.6))
+hist(nullDistributionF, xlim = c(-0.2, 0.6), xlab = "Correlation Coefficient", main = "Simulated Correlation between Attractiveness and Fun (Female)")
 abline(v = statisticF, col = 'red')
 ```
 The p-value for both corrolations is 0. We can reject the null hypothesis with 
