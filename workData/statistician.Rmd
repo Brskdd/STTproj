@@ -72,10 +72,11 @@ cor(speedDatingCleanedQ2M[sapply(speedDatingCleanedQ2M, is.numeric)])
 ```{r}
 corr_matrix <- cor(speedDatingCleanedQ2M[sapply(speedDatingCleanedQ2M, is.numeric)], 
                    use = "complete.obs")
-ggcorrplot(corr_matrix, method = "circle", type = "upper",
+theplot<- ggcorrplot(corr_matrix, method = "circle", type = "upper",
            lab = TRUE, lab_size = 3) +  
   labs(title = "Correlation Matrix of Speed Dating Variables (Male)")
-ggsave("Q2a_corrolation.png", plot = p, width = 6, height = 4, units = "in", dpi = 300)
+ggsave("Q2a_corrolation.png", plot = theplot, width = 6, height = 4, units = "in", dpi = 300)
+theplot
 ```
 The none of the corrolations are stonger than 0.6 so we can go ahead with linear regression.
 Age and race do not seem to have a relationship with like rating.
@@ -96,10 +97,11 @@ cor(speedDatingCleanedQ2F[sapply(speedDatingCleanedQ2F, is.numeric)])
 ```{r}
 corr_matrix <- cor(speedDatingCleanedQ2F[sapply(speedDatingCleanedQ2F, is.numeric)], 
                    use = "complete.obs")
-ggcorrplot(corr_matrix, method = "circle", type = "upper",
+theplot <- ggcorrplot(corr_matrix, method = "circle", type = "upper",
            lab = TRUE, lab_size = 3) +  
   labs(title = "Correlation Matrix of Speed Dating Variables (Female)")
-ggsave("Q2a_corrolation.png", plot = p, width = 6, height = 4, units = "in", dpi = 300)
+ggsave("Q2b_corrolation.png",  plot = theplot, width = 6, height = 4, units = "in", dpi = 300)
+theplot
 ```
 There seems to be The none of the corrolations are stonger than 0.6 so we can go ahead with linear regression.
 Age and race do not seem to have a relationship with like rating.
