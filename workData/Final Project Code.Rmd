@@ -249,9 +249,9 @@ nulldistM <- replicate(1000, shuffleM(speedDatingCleanedQ4))
 
 png("Q4_hist_M.png", width = 800, height = 600, res = 100)
 
-hist(nulldistM, main = "Null Dist of How Men Rate Women as Attractive vs Fun", ylim = c(-.25, .25), xlab = "Test Correlation")
+hist(nulldistM, main = "Null Dist of How Men Rate Women as Attractive vs Fun", xlim = c(-.25, .65), xlab = "Test Correlation")
 abline(v = CorM, col = "red")
-text(x = 0.16, y = 1.15, labels = paste("Observed CorM = ", round(CorM, 4)), pos = 3, col = "red")
+text(x = 0.3, y = 200, labels = paste("Observed CorM = ", round(CorM, 4)), pos = 3, col = "red")
 
 dev.off()
 p_valM <- mean(CorM <= nulldistM)
@@ -317,9 +317,10 @@ nulldistF <- replicate(1000, shuffleF(speedDatingCleanedQ4))
 png("Q4_hist_F.png", width = 800, height = 600, res = 100)
 
 
-hist(nulldistF, main = "Null Dist of How Women Percieve Men as Attractive vs Fun", ylim = c(-.25, .25), xlab = "Test Correlation")
-abline(v = CorF, col = "red")
-text(x = 0.16, y = 1.15, labels = paste("Observed CorF = ", round(CorF, 4)), pos = 3, col = "red")
+hist(nulldistF, main = "Null Dist of How Women Percieve Men as Attractive vs Fun", xlim = c(-0.25, 0.6))
+text(x = 0.4, y = 200, labels = paste("Observed CorF = ", round(CorF, 4)), pos = 3, col = "red")
+abline(v=CorF, col = "red")
+
 dev.off()
 p_valF <- mean(CorF <= nulldistF)
 print(p_valF)
