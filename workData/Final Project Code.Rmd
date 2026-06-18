@@ -36,21 +36,22 @@ print(p_val)
 ```{r null dist boxplot}
  #diff M - F (= .0688, red)"
 boxplot(nullDist, 
-        main = "null dist between M and F decisions", 
+        main = expression(paste("Null Distribution of ", pi[M], " - ", pi[F], )),
         xlab = expression(paste("Test ", pi[M], " - ", pi[F])),
         horizontal = TRUE)
 text(x = mean_diff, 
      y = 1.15, 
-     labels = expression(paste('Observed')), 
+     labels = expression(paste('Observed ', pi[M], " - ", pi[F], " =")), 
      pos = 4, 
      col = "red",
      font = 2)
 text(x = mean_diff, 
      y = 1.05, 
-     labels = expression(paste(pi[M], " - ", pi[F])), 
+     labels = paste(round(mean_diff, 4)),
      pos = 4, 
      col = "red",
      font = 2)
+
 abline(v = mean_diff, col = "red")
 ```
 
