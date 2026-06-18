@@ -34,8 +34,23 @@ p_val <- mean(nullDist >= mean_diff)
 print(p_val)
 ```
 ```{r null dist boxplot}
-boxplot(nullDist, main = "null dist between M and F decisions", xlab = "observed mean diff M - F (= .0688, red)", horizontal = TRUE)
-
+ #diff M - F (= .0688, red)"
+boxplot(nullDist, 
+        main = "null dist between M and F decisions", 
+        xlab = expression(paste("Test ", pi[M], " - ", pi[F])),
+        horizontal = TRUE)
+text(x = mean_diff, 
+     y = 1.15, 
+     labels = expression(paste('Observed')), 
+     pos = 4, 
+     col = "red",
+     font = 2)
+text(x = mean_diff, 
+     y = 1.05, 
+     labels = expression(paste(pi[M], " - ", pi[F])), 
+     pos = 4, 
+     col = "red",
+     font = 2)
 abline(v = mean_diff, col = "red")
 ```
 
@@ -102,11 +117,11 @@ speedDatingCleanedQ3 <- SpeedDating %>%
 ```
 
 ```{r relevant plots and Sample Correlation}
-plot(speedDatingCleanedQ3$ageDiffM, speedDatingCleanedQ3$AttractiveM, xlab = "Age Difference Between Men and Women", ylab = "How Attractive do Men Rate Women", main = "Age Gap between Men and Women vs Percieved Attractiveness")
+plot(speedDatingCleanedQ3$ageDiffM, speedDatingCleanedQ3$AttractiveM, xlab = "Age Difference Between Men and Women", ylab = "How Attractive do Men Rate Women", main = "Age Gap between Men and Women vs Rated Attractiveness")
 
 CorM <- cor(speedDatingCleanedQ3$ageDiffM, speedDatingCleanedQ3$AttractiveM)
 
-plot(speedDatingCleanedQ3$ageDiffF, speedDatingCleanedQ3$AttractiveF, xlab = "Age Difference Between Women and Men", ylab = "How Attractive do Women Rate Men", main = "Age Gap between Women and Men vs Percieved Attractiveness")
+plot(speedDatingCleanedQ3$ageDiffF, speedDatingCleanedQ3$AttractiveF, xlab = "Age Difference Between Women and Men", ylab = "How Attractive do Women Rate Men", main = "Age Gap between Women and Men vs Rated Attractiveness")
 
 CorF <- cor(speedDatingCleanedQ3$ageDiffF, speedDatingCleanedQ3$AttractiveF)
 
@@ -123,17 +138,23 @@ shuffleM <- function(male){
 
 nulldistM <- replicate(1000, shuffleM(speedDatingCleanedQ3))
 
-boxplot(nulldistM, horizontal = TRUE, main = "Null Dist of Correlations Between M-F Age Gaps and Percieved Attractiveness", xlab = "Test Correlation = .0643, red")
+boxplot(nulldistM, horizontal = TRUE, main = "Null Dist of Correlations Between M-F Age Gaps and Rated Attractiveness", xlab = "Test Correlation")
 abline(v = CorM, col = "red")
+text(x = 0.12, y = 1.15, labels = paste("Observed CorM = "), pos = 3, col = "red")
+text(x = 0.12, y = 1.05, labels = paste(round(CorM, 4)), pos = 3, col = "red")
+
+
 ```
 ```{r histogram for men}
 hist(nulldistM,
-     main = "Null Dist of Correlations Between M-F Age Gaps and Perceived Attractiveness",
-     xlab = paste("Test Correlation =", CorM, "(red)"),
+     main = "Null Dist of Correlations Between M-F Age Gaps and Rated Attractiveness",
+     xlab = paste("Test Correlation"),
      col = "lightgray",
      border = "black")
 
 abline(v = CorM, col = "red", lwd = 2)
+text(x = 0.16, y = 250, labels = paste("Observed CorM = ", round(CorM, 4)), pos = 3, col = "red")
+
 ```
 
 ```{r test code for Women}
@@ -146,17 +167,23 @@ shuffleF <- function(female){
 
 nulldistF <- replicate(1000, shuffleF(speedDatingCleanedQ3))
 
-boxplot(nulldistF, horizontal = TRUE, main = "Null Dist of Correlations Between F-M Age Gaps and Percieved Attractiveness", xlab = "Test Correlation = .0670, red")
+boxplot(nulldistF, horizontal = TRUE, main = "Null Dist of Correlations Between F-M Age Gaps and Rated Attractiveness", xlab = "Test Correlation = .0670, red")
 abline(v = CorF, col = "red")
+text(x = 0.14, y = 1.15, labels = paste("Observed CorF = ", round(CorF, 4)), pos = 3, col = "red")
+
 ```
 ```{r added hist for women}
 hist(nulldistF,
-     main = "Null Dist of Correlations Between F-M Age Gaps and Perceived Attractiveness",
-     xlab = paste("Test Correlation =", CorF, "(red)"),
+     main = "Null Dist of Correlations Between F-M Age Gaps and Rated Attractiveness",
+     xlab = "Test Correlation",
      col = "lightgray",
      border = "black")
 
+
 abline(v = CorF, col = "red", lwd = 2)
+text(x = 0.13, y = 250, labels = paste("Observed CorF = "), pos = 3, col = "red")
+text(x = 0.13, y = 220, labels = paste(round(CorF, 4)), pos = 3, col = "red")
+
 ```
 
 ```{r obtaining p values}
@@ -181,7 +208,7 @@ speedDatingCleanedQ4 <- SpeedDating %>%
 ```
 
 ```{r plotting mens view of womens attractiveness vs fun and their correlation.}
-plot(speedDatingCleanedQ4$AttractiveM, speedDatingCleanedQ4$FunM, xlab = "How Attractive Do Men View Women As? (1-10)", ylab = "How Fun Do Men View Women As? (1-10)", main = "Men's View of Women's Attractiveness vs How Fun They Are with best fit (red, =.6068)")
+plot(jitter(speedDatingCleanedQ4$AttractiveM), jitter(speedDatingCleanedQ4$FunM), xlab = "How Attractive Do Men View Women As? (1-10)", ylab = "How Fun Do Men View Women As? (1-10)", main = "Men's Rating of Women's Attractiveness vs How Fun They Are with")
 
 abline(lm(speedDatingCleanedQ4$FunM ~ speedDatingCleanedQ4$AttractiveM), col = "red")
 
@@ -203,8 +230,10 @@ shuffleM <- function(male){
 
 nulldistM <- replicate(1000, shuffleM(speedDatingCleanedQ4))
 
-boxplot(nulldistM, main = "Null Dist of How Men Percieve Women as Attractive vs Fun", horizontal = TRUE, ylim = c(-.25, .7), xlab = "Test Correlation Line (in red, = .6068)")
+boxplot(nulldistM, main = "Null Dist of How Men Rate Women as Attractive vs Fun", horizontal = TRUE, ylim = c(-.25, .25), xlab = "Test Correlation")
 abline(v = CorM, col = "red")
+text(x = 0.16, y = 1.15, labels = paste("Observed CorM = ", round(CorM, 4)), pos = 3, col = "red")
+
 
 p_valM <- mean(CorM <= nulldistM)
 print(p_valM)
@@ -240,7 +269,7 @@ shuffleM <- function(male){
 
 
 ```{r plotting womens view of mens attractiveness vs fun and their correlation.}
-plot(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF, xlab = "How Attractive Do Women View Men As? (1-10)", ylab = "How Fun Do Women View Men As? (1-10)", main = "Women's View of Men's Attractiveness vs How Fun They Are with best fit (red, = .5521)")
+plot(jitter(speedDatingCleanedQ4$AttractiveF), jitter(speedDatingCleanedQ4$FunF), xlab = "How Attractive Do Women View Men As? (1-10)", ylab = "How Fun Do Women View Men As? (1-10)", main = "Women's Rating of Men's Attractiveness vs How Fun They Are")
 abline(lm(speedDatingCleanedQ4$FunF ~ speedDatingCleanedQ4$AttractiveF), col = "red")
 
 CorF <- cor(speedDatingCleanedQ4$AttractiveF, speedDatingCleanedQ4$FunF, method = "pearson")
@@ -260,8 +289,9 @@ shuffleF <- function(female){
 
 nulldistF <- replicate(1000, shuffleF(speedDatingCleanedQ4))
 
-boxplot(nulldistF, main = "Null Dist of How Women Percieve Men as Attractive vs Fun", horizontal = TRUE, ylim = c(-.25, .65), xlab = "Test Correlation Line (in red, = .5521)")
+boxplot(nulldistF, main = "Null Dist of How Women Percieve Men as Attractive vs Fun", horizontal = TRUE, ylim = c(-.25, .25), xlab = "Test Correlation")
 abline(v = CorF, col = "red")
+text(x = 0.16, y = 1.15, labels = paste("Observed CorF = ", round(CorF, 4)), pos = 3, col = "red")
 
 p_valF <- mean(CorF <= nulldistF)
 print(p_valF)
